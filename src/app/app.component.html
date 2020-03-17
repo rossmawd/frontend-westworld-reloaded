@@ -1,8 +1,7 @@
 <!-- Toolbar -->
-
 <app-toolbar></app-toolbar>
 <div class="content" role="main">
-
+  <router-outlet></router-outlet>
   <!-- Highlight Card -->
   <div class="card highlight-card card-small">
     <span>{{ title }} app is running!</span>
@@ -16,10 +15,9 @@
   </div>
 
   <!-- Resources -->
-  <app-game></app-game>
+  
   
   <input type="hidden" #selection>
 </div>
 
 
-<router-outlet></router-outlet>
