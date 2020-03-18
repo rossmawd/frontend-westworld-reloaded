@@ -25,10 +25,33 @@ export class GameComponent implements OnInit {
     this.cardService.getCards().subscribe({
       next: cards => {
         this.cards = cards;
+        console.log(this.distributeCards([...this.cards]))
       },
       error: err => (this.errorMessage = err)
     })
+
+ 
     //this.playerName = this.route.snapshot.paramMap.get("name");
    this.playerName ? null : this.playerName = this.welcomeService.getUserName()
+  
   }
+  distributeCards(cards: ICard[]): ICard[][] {
+    let playerCards: ICard[]
+    let opponentCards: ICard[]
+    
+    cards = this.shuffle(cards)
+    
+
+
+    return [[this.cards.pop()],[this.cards.shift()]]
+      
+  }
+
+   shuffle(cards: ICard[]): ICard[] {
+    for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    return cards;
+}
 }
