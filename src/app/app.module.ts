@@ -9,6 +9,7 @@ import { CardComponent } from './card/card.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { GameComponent } from './game/game.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
