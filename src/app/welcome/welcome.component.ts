@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 
 
 @Component({
@@ -8,11 +9,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  playerName: string;
+  playerInput: string
+  //@Output() playerNameOut: EventEmitter<string> = new EventEmitter<string>();
 
   startGame() {
+    //this.playerNameOut.emit(this.playerInput)
     console.log('game starting')
-    this.router.navigate(['/game'])
+    this.router.navigate(['/game', {name: this.playerInput}])
   }
 
   constructor(private route: ActivatedRoute, private router: Router) { }
