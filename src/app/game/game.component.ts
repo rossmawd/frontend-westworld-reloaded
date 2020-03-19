@@ -15,6 +15,8 @@ export class GameComponent implements OnInit {
   cards: ICard[] = [];
   playerCards: ICard[];
   opponentCards: ICard[];
+  currentPlayerCard: ICard;
+  currentOpponentCard: ICard;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +29,8 @@ export class GameComponent implements OnInit {
       next: cards => {
         this.cards = cards;
         this.distributeCards([...this.cards])
+        this.currentPlayerCard = this.drawCards(this.playerCards)
+        this.currentOpponentCard= this.drawCards(this.opponentCards)
       },
       error: err => (this.errorMessage = err)
     });
@@ -35,6 +39,11 @@ export class GameComponent implements OnInit {
     this.playerName
       ? null
       : (this.playerName = this.welcomeService.getUserName());
+  }
+
+  drawCards(cards: ICard[]): ICard {
+    cards.unshift(cards.pop())
+    return cards[0]
   }
 
   distributeCards(cards: ICard[]): void {
