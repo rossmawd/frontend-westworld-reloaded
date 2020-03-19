@@ -4,22 +4,60 @@
 
   <div *ngIf="currentPlayerCard && currentPlayerCard">
     <mat-card class="card-container">
-      <mat-card class="example-card">
-          <mat-card-title>{{currentPlayerCard.name}}</mat-card-title>
-          <img mat-card-lg-image src="{{ currentPlayerCard.imageurl }}" />    
+
+      <mat-card class="player-card">
+        <mat-card-header>
+          <mat-card-title>{{ currentPlayerCard.name }}</mat-card-title>
+        </mat-card-header>
+
+        <img mat-card-lg-image src="{{ currentPlayerCard.imageurl }}" />
+          <div class="button-container">
+            <button mat-raised-button class="flex-item">
+              Apperception: {{ currentPlayerCard.apperception }}
+            </button>
+            <button mat-raised-button class="flex-item">
+              Charm: {{ currentPlayerCard.charm }}
+            </button>
+            <button mat-raised-button class="flex-item">
+              Aggression: {{ currentPlayerCard.aggression }}
+            </button>
+          </div>
+        <mat-card-content>
+          <p>
+            {{ currentPlayerCard.description }}
+          </p>
+        </mat-card-content>
       </mat-card>
 
-      <mat-card class="example-card">
-        <mat-card-title>{{currentOpponentCard.name}}</mat-card-title>
+         
+      <mat-card class="player-card">
+        <mat-card-header>
+          <mat-card-title>{{ currentOpponentCard.name }}</mat-card-title>
+        </mat-card-header>
+
         <img mat-card-lg-image src="{{ currentOpponentCard.imageurl }}" />
+          <div class="button-container">
+            <button mat-raised-button class="flex-item">
+              Apperception: {{ currentOpponentCard.apperception }}
+            </button>
+            <button mat-raised-button class="flex-item">
+              Charm: {{ currentOpponentCard.charm }}
+            </button>
+            <button mat-raised-button class="flex-item">
+              Aggression: {{ currentOpponentCard.aggression }}
+            </button>
+          </div>
+        <mat-card-content>
+          <p>
+            {{ currentOpponentCard.description }}
+          </p>
+        </mat-card-content>
       </mat-card>
     </mat-card>
-
   </div>
 </div>
 
-
-  <!-- <div *ngIf='currentPlayerCard && currentPlayerCard'class="card-container">
+<!-- <div *ngIf='currentPlayerCard && currentPlayerCard'class="card-container">
   <div class="card">
     <span>Competitor</span>
     

@@ -4,8 +4,7 @@ import {FormsModule} from '@angular/forms'
 import { HttpClientModule } from "@angular/common/http";
 import {MatSliderModule}  from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
-import {MatGridListModule} from '@angular/material/grid-list';
-
+import {MatButtonModule} from '@angular/material/button';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatSliderModule,
     MatCardModule,
-    MatGridListModule
+    MatButtonModule
    
     
   ],
