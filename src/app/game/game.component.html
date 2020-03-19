@@ -1,8 +1,8 @@
 <div class="content">
-  <h2>{{ playerName }}, let the Battle Commence!</h2>
-  <p>Click on your characters attribute to defeat the enemy!:</p>
+  <h2 (click)='playerName="changed"'>{{ playerName }}, let the Battle Commence!</h2>
+  <h5>Put an info box here!</h5>
 
-  <div *ngIf="currentPlayerCard && currentPlayerCard">
+  <div *ngIf="currentPlayerCard && currentOpponentCard">
     <mat-card class="card-container">
 
       <mat-card class="player-card">
@@ -11,17 +11,29 @@
         </mat-card-header>
 
         <img mat-card-lg-image src="{{ currentPlayerCard.imageurl }}" />
-          <div class="button-container">
-            <button mat-raised-button class="flex-item">
-              Apperception: {{ currentPlayerCard.apperception }}
-            </button>
-            <button mat-raised-button class="flex-item">
-              Charm: {{ currentPlayerCard.charm }}
-            </button>
-            <button mat-raised-button class="flex-item">
-              Aggression: {{ currentPlayerCard.aggression }}
-            </button>
-          </div>
+        <div class="button-container">
+          <button
+            mat-raised-button
+            class="flex-item"
+            (click)="handleAttack('apperception')"
+          >
+            Apperception: {{ currentPlayerCard.apperception }}
+          </button>
+          <button
+            mat-raised-button
+            class="flex-item"
+            (click)="handleAttack('charm')"
+          >
+            Charm: {{ currentPlayerCard.charm }}
+          </button>
+          <button
+            mat-raised-button
+            class="flex-item"
+            (click)="handleAttack('aggression')"
+          >
+            Aggression: {{ currentPlayerCard.aggression }}
+          </button>
+        </div>
         <mat-card-content>
           <p>
             {{ currentPlayerCard.description }}
@@ -29,24 +41,23 @@
         </mat-card-content>
       </mat-card>
 
-         
       <mat-card class="player-card">
         <mat-card-header>
           <mat-card-title>{{ currentOpponentCard.name }}</mat-card-title>
         </mat-card-header>
 
         <img mat-card-lg-image src="{{ currentOpponentCard.imageurl }}" />
-          <div class="button-container">
-            <button mat-raised-button class="flex-item">
-              Apperception: {{ currentOpponentCard.apperception }}
-            </button>
-            <button mat-raised-button class="flex-item">
-              Charm: {{ currentOpponentCard.charm }}
-            </button>
-            <button mat-raised-button class="flex-item">
-              Aggression: {{ currentOpponentCard.aggression }}
-            </button>
-          </div>
+        <div class="button-container">
+          <button mat-button class="flex-item">
+            Apperception: {{ currentOpponentCard.apperception }}
+          </button>
+          <button mat-button class="flex-item">
+            Charm: {{ currentOpponentCard.charm }}
+          </button>
+          <button mat-button class="flex-item">
+            Aggression: {{ currentOpponentCard.aggression }}
+          </button>
+        </div>
         <mat-card-content>
           <p>
             {{ currentOpponentCard.description }}
