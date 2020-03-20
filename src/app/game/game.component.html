@@ -1,80 +1,111 @@
+<h2 (click)="playerName = 'EGG'">
+  {{ playerName ? playerName : "Ok" }}, let the Battle Commence!
+</h2>
+<mat-card style="width:'500px'; margin-bottom: 10px;">
+  <marquee
+    *ngIf="!oppCardColor && !playerCardColor"
+    behavior="slide"
+    direction="down"
+  >
+    Choose one of your character's attributes to fight!
+    Don't go below 3 cards or you'll lose!
+    </marquee>
 
-  <h2 (click)='playerName="changed"'>{{ playerName ? playerName : 'Ok' }}, let the Battle Commence!</h2>
-  <mat-card style="width:'500px'; margin-bottom: 10px;">
-    {{infoMessage}}
+  <marquee
+    *ngIf="oppCardColor || playerCardColor"
+    behavior="slide"
+    direction="down"
+  >
+    {{ infoMessage }}</marquee
+  >
+</mat-card>
 
-  </mat-card>
+<div *ngIf="currentPlayerCard && currentOpponentCard">
+  <mat-card class="card-container">
+    <mat-card
+      class="player-card"
+      style="background-color: {{ playerCardColor }}
+      "
+    >
+      <mat-card-header
+        matBadge="{{ playerCards.length }}"
+        matBadgeOverlap="true"
+      >
+        <mat-card-title>
+          {{ currentPlayerCard.name }}
+        </mat-card-title>
+      </mat-card-header>
 
-  <div *ngIf="currentPlayerCard && currentOpponentCard">
-    <mat-card class="card-container">
-
-      <mat-card  class="player-card">
-        
-      
-        <mat-card-header matBadge="{{playerCards.length}}" matBadgeOverlap="true">
-          <mat-card-title>
-            {{ currentPlayerCard.name }}
-          </mat-card-title>
-        </mat-card-header>
-
-        <img mat-card-lg-image src="{{ currentPlayerCard.imageurl }}" />
-        <div class="button-container">
-          <button
-            mat-raised-button
-            class="flex-item"
-            (click)="handleAttack('apperception')"
-          >
-            Apperception: {{ currentPlayerCard.apperception }}
-          </button>
-          <button
-            mat-raised-button
-            class="flex-item"
-            (click)="handleAttack('charm')"
-          >
-            Charm: {{ currentPlayerCard.charm }}
-          </button>
-          <button
-            mat-raised-button
-            class="flex-item"
-            (click)="handleAttack('aggression')"
-          >
-            Aggression: {{ currentPlayerCard.aggression }}
-          </button>
-        </div>
-        <mat-card-content>
-          <p>
-            {{ currentPlayerCard.description }}
-          </p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="player-card">
-        <mat-card-header matBadge="{{opponentCards.length}}" matBadgeOverlap="true">
-          <mat-card-title>{{ currentOpponentCard.name }}</mat-card-title> 
-        </mat-card-header>
-        <img mat-card-lg-image src="{{ currentOpponentCard.imageurl }}" />
-
-       
-        <div class="button-container">
-          <button mat-button class="flex-item">
-            Apperception: {{ currentOpponentCard.apperception }}
-          </button>
-          <button mat-button class="flex-item">
-            Charm: {{ currentOpponentCard.charm }}
-          </button>
-          <button mat-button class="flex-item">
-            Aggression: {{ currentOpponentCard.aggression }}
-          </button>
-        </div>
-        <mat-card-content>
-          <p>
-            {{ currentOpponentCard.description }}
-          </p>
-        </mat-card-content>
-      </mat-card>
+      <img mat-card-lg-image src="{{ currentPlayerCard.imageurl }}" />
+      <div class="button-container">
+        <button
+          mat-raised-button
+          class="flex-item"
+          (click)="handleAttack('apperception')"
+        >
+          Apperception: {{ currentPlayerCard.apperception }}
+        </button>
+        <button
+          mat-raised-button
+          class="flex-item"
+          (click)="handleAttack('charm')"
+        >
+          Charm: {{ currentPlayerCard.charm }}
+        </button>
+        <button
+          mat-raised-button
+          class="flex-item"
+          (click)="handleAttack('aggression')"
+        >
+          Aggression: {{ currentPlayerCard.aggression }}
+        </button>
+      </div>
+      <mat-card-content>
+        <p>
+          {{ currentPlayerCard.description }}
+        </p>
+      </mat-card-content>
     </mat-card>
-  </div>
 
+    <mat-card class="player-card" style="background-color: {{ oppCardColor }}">
+      <mat-card-header
+        matBadge="{{ opponentCards.length }}"
+        matBadgeOverlap="true"
+      >
+        <mat-card-title>{{ currentOpponentCard.name }}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-lg-image src="{{ currentOpponentCard.imageurl }}" />
+
+      <div class="button-container">
+        <button mat-button class="flex-item">
+          Apperception:
+          {{
+            playerCardColor || oppCardColor
+              ? currentOpponentCard.apperception
+              : "?"
+          }}
+        </button>
+        <button mat-button class="flex-item">
+          Charm:
+          {{
+            playerCardColor || oppCardColor ? currentOpponentCard.charm : "?"
+          }}
+        </button>
+        <button mat-button class="flex-item">
+          Aggression:
+          {{
+            playerCardColor || oppCardColor ? currentOpponentCard.aggression : "?"
+          }}
+        </button>
+      </div>
+      <mat-card-content>
+        <p>
+          {{ currentOpponentCard.description }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </mat-card>
+</div>
 
 <!-- <div *ngIf='currentPlayerCard && currentPlayerCard'class="card-container">
   <div class="card">

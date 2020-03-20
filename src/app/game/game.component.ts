@@ -17,7 +17,10 @@ export class GameComponent implements OnInit {
   opponentCards: ICard[];
   currentPlayerCard: ICard;
   currentOpponentCard: ICard;
-  infoMessage: string = 'Choose one of your character\'s attributes to fight!'
+  infoMessage: string;
+  playerCardColor: string;
+  oppCardColor: string;
+  playerScore: number = 100
 
   constructor(
     private route: ActivatedRoute,
@@ -60,26 +63,43 @@ export class GameComponent implements OnInit {
     outcome: string
   ): void {
     let winLoseDraw: string 
-    if (outcome === 'win') {winLoseDraw = 'You Win a Card!'}
-    if (outcome === 'lose') {winLoseDraw = 'You Lose a Card!'}
+    if (outcome === 'win') {winLoseDraw = 'You Won a Card!'}
+    if (outcome === 'lose') {winLoseDraw = 'You Lost a Card!'}
     if (outcome === 'draw') {winLoseDraw = `It\'s a stalemate! Re-Draw!`}
 
     // console.log(`${winner} used ${att} to defeat ${loser}`);
     if (att === 'apperception') {
-      this.infoMessage = winLoseDraw + ` ${winner} outsmarted ${loser}! Smarty Pants.`
+      this.infoMessage = winLoseDraw + ` ${winner} outsmarted ${loser}! Unsurprising.`
     }
     if ( att === 'aggression') {
       this.infoMessage = winLoseDraw + ` ${loser}'s strength was no match for ${winner}!`
     }
     if ( att === 'charm') {
-      this.infoMessage = winLoseDraw + ` Poor ${loser} has fallen for ${winner}'s charms!`
+      this.infoMessage = winLoseDraw + ` Poor ${loser} fell for ${winner}'s charms!`
     }  
     console.log(this.infoMessage)
-    this.exchangeCard(outcome);
+    outcome === 'win' ? this.oppCardColor = '#ff3333' : this.playerCardColor = '#ff3333' 
+    setTimeout(() => {
+      this.exchangeCard(outcome)
+      this.oppCardColor = null 
+      this.playerCardColor = null
+    }, 3000)
+   
+    
+  }
+
+  updateScoreAndDetermineIfLoss(condition: string): boolean{
+    if (condition === 'lose') {this.playerScore --}
+    console.log('the player score is now' + this.playerScore)
+    if (this.playerCards.length < 2) {}
+   
+
+    return false
   }
 
   exchangeCard(condition: string): void {
     console.log(condition);
+    if (this.updateScoreAndDetermineIfLoss(condition)){return}
     if (condition === "win") {
       this.playerCards = [...this.playerCards, this.opponentCards.shift()];
       this.playerCards.push(this.playerCards.shift());
@@ -100,15 +120,6 @@ export class GameComponent implements OnInit {
   drawCards(deck: string): ICard {
     this[deck].push(this[deck].unshift());
     return this[deck][0];
-  }
-  // drawCards(cards: ICard[]): ICard {
-  //   console.log('Drawing new card')
-  //   cards.unshift(cards.pop());
-  //   return cards[0];
-  // }
-
-  ngOnChanges() {
-    console.log("changes");
   }
 
   distributeCards(cards: ICard[]): void {
