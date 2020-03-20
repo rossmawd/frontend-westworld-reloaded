@@ -17,6 +17,7 @@ export class GameComponent implements OnInit {
   opponentCards: ICard[];
   currentPlayerCard: ICard;
   currentOpponentCard: ICard;
+  infoMessage: string = 'Choose one of your character\'s attributes to fight!'
 
   constructor(
     private route: ActivatedRoute,
@@ -41,36 +42,60 @@ export class GameComponent implements OnInit {
   }
 
   handleAttack(attribute: string): void {
-    let player = { ...this.currentPlayerCard };
-    let opponent = { ...this.currentOpponentCard };
-    if (player[attribute] > opponent[attribute]) {
-      this.exchangeCard("win");
-    } else if (player[attribute] < opponent[attribute]) {
-      this.exchangeCard("lose");
+    let goodie = { ...this.currentPlayerCard };
+    let baddie = { ...this.currentOpponentCard };
+    if (goodie[attribute] > baddie[attribute]) {
+      this.displayResult(goodie.name, baddie.name, attribute, "win");
+    } else if (goodie[attribute] < baddie[attribute]) {
+      this.displayResult(baddie.name, goodie.name, attribute, "lose");
     } else {
-      this.exchangeCard("draw");
+      this.displayResult(baddie.name, goodie.name, attribute, "draw");
     }
-    // this.ngOnChanges()
+  }
+
+  displayResult(
+    winner: string,
+    loser: string,
+    att: string,
+    outcome: string
+  ): void {
+    let winLoseDraw: string 
+    if (outcome === 'win') {winLoseDraw = 'You Win a Card!'}
+    if (outcome === 'lose') {winLoseDraw = 'You Lose a Card!'}
+    if (outcome === 'draw') {winLoseDraw = `It\'s a stalemate! Re-Draw!`}
+
+    // console.log(`${winner} used ${att} to defeat ${loser}`);
+    if (att === 'apperception') {
+      this.infoMessage = winLoseDraw + ` ${winner} outsmarted ${loser}! Smarty Pants.`
+    }
+    if ( att === 'aggression') {
+      this.infoMessage = winLoseDraw + ` ${loser}'s strength was no match for ${winner}!`
+    }
+    if ( att === 'charm') {
+      this.infoMessage = winLoseDraw + ` Poor ${loser} has fallen for ${winner}'s charms!`
+    }  
+    console.log(this.infoMessage)
+    this.exchangeCard(outcome);
   }
 
   exchangeCard(condition: string): void {
     console.log(condition);
     if (condition === "win") {
-      this.playerCards = [...this.playerCards, this.opponentCards.shift()]
-      this.playerCards.push(this.playerCards.shift())
+      this.playerCards = [...this.playerCards, this.opponentCards.shift()];
+      this.playerCards.push(this.playerCards.shift());
     } else if (condition === "lose") {
-      this.opponentCards = [...this.opponentCards, this.playerCards.shift()]
-      this.opponentCards.push(this.opponentCards.shift())
+      this.opponentCards = [...this.opponentCards, this.playerCards.shift()];
+      this.opponentCards.push(this.opponentCards.shift());
     } else {
-      this.opponentCards.push(this.opponentCards.shift())
-      this.playerCards.push(this.playerCards.shift())
+      this.opponentCards.push(this.opponentCards.shift());
+      this.playerCards.push(this.playerCards.shift());
     }
-      //set the cards for the next round
-    this.currentPlayerCard = this.playerCards[0]
-    this.currentOpponentCard = this.opponentCards[0]
+    //set the cards for the next round
+    this.currentPlayerCard = this.playerCards[0];
+    this.currentOpponentCard = this.opponentCards[0];
     console.log("the new player card is", this.currentPlayerCard);
-    console.log("the new opponent card is", this.currentOpponentCard)
-  } 
+    console.log("the new opponent card is", this.currentOpponentCard);
+  }
 
   drawCards(deck: string): ICard {
     this[deck].push(this[deck].unshift());

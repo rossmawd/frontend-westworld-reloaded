@@ -1,6 +1,9 @@
-<div class="content">
-  <h2 (click)='playerName="changed"'>{{ playerName }}, let the Battle Commence!</h2>
-  <h5>Put an info box here!</h5>
+
+  <h2 (click)='playerName="changed"'>{{ playerName ? playerName : 'Ok' }}, let the Battle Commence!</h2>
+  <mat-card style="width:'500px'; margin-bottom: 10px;">
+    {{infoMessage}}
+
+  </mat-card>
 
   <div *ngIf="currentPlayerCard && currentOpponentCard">
     <mat-card class="card-container">
@@ -9,7 +12,9 @@
         
       
         <mat-card-header matBadge="{{playerCards.length}}" matBadgeOverlap="true">
-          <mat-card-title>{{ currentPlayerCard.name }}</mat-card-title>
+          <mat-card-title>
+            {{ currentPlayerCard.name }}
+          </mat-card-title>
         </mat-card-header>
 
         <img mat-card-lg-image src="{{ currentPlayerCard.imageurl }}" />
@@ -69,7 +74,7 @@
       </mat-card>
     </mat-card>
   </div>
-</div>
+
 
 <!-- <div *ngIf='currentPlayerCard && currentPlayerCard'class="card-container">
   <div class="card">
