@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { WelcomeService } from "../welcome/welcome.service";
 import { CardService } from "../card/card.service";
 import { ICard } from "../card/card";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-game",
@@ -20,12 +21,13 @@ export class GameComponent implements OnInit {
   infoMessage: string;
   playerCardColor: string;
   oppCardColor: string;
-  playerScore: number = 100
+  playerScore: number = 50
 
   constructor(
     private route: ActivatedRoute,
     private welcomeService: WelcomeService,
-    private cardService: CardService
+    private cardService: CardService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +93,16 @@ export class GameComponent implements OnInit {
   updateScoreAndDetermineIfLoss(condition: string): boolean{
     if (condition === 'lose') {this.playerScore --}
     console.log('the player score is now' + this.playerScore)
-    if (this.playerCards.length < 2) {}
+    console.log('the player has' + this.playerCards.length)
+    if (this.playerCards.length - 1 < 3) { 
+      console.log('ROUTING')
+      this.router.navigate(["/welcome"]);
+      return true
+    }
+    if (this.opponentCards.length -1 < 3) {
+      this.router.navigate(["/welcome"])
+      return true
+    }
    
 
     return false
