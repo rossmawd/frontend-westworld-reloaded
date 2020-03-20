@@ -29,15 +29,12 @@ export class GameComponent implements OnInit {
       next: cards => {
         this.cards = cards;
         this.distributeCards([...this.cards]);
-        // this.currentPlayerCard = this.drawCards(this.playerCards);
-        // this.currentOpponentCard = this.drawCards(this.opponentCards);
         this.currentPlayerCard = this.drawCards("playerCards");
         this.currentOpponentCard = this.drawCards("opponentCards");
       },
       error: err => (this.errorMessage = err)
     });
 
-    //this.playerName = this.route.snapshot.paramMap.get("name");
     this.playerName
       ? null
       : (this.playerName = this.welcomeService.getUserName());
@@ -53,30 +50,31 @@ export class GameComponent implements OnInit {
     } else {
       this.exchangeCard("draw");
     }
-    this.ngOnChanges()
+    // this.ngOnChanges()
   }
 
   exchangeCard(condition: string): void {
     console.log(condition);
-    let oppCard = this.currentOpponentCard;
-    let playerCard = this.currentPlayerCard;
     if (condition === "win") {
-      // this.playerCards.push(this.opponentCards.shift());
       this.playerCards = [...this.playerCards, this.opponentCards.shift()]
       this.playerCards.push(this.playerCards.shift())
-     
-      this.currentPlayerCard = this.playerCards[0]
-      this.currentOpponentCard = this.opponentCards[0]
-      console.log("the new player card is", this.currentPlayerCard);
-      console.log("the new opponent card is", this.currentOpponentCard);
+    } else if (condition === "lose") {
+      this.opponentCards = [...this.opponentCards, this.playerCards.shift()]
+      this.opponentCards.push(this.opponentCards.shift())
+    } else {
+      this.opponentCards.push(this.opponentCards.shift())
+      this.playerCards.push(this.playerCards.shift())
     }
-    console.log(this.playerCards);
-  }
+      //set the cards for the next round
+    this.currentPlayerCard = this.playerCards[0]
+    this.currentOpponentCard = this.opponentCards[0]
+    console.log("the new player card is", this.currentPlayerCard);
+    console.log("the new opponent card is", this.currentOpponentCard)
+  } 
 
   drawCards(deck: string): ICard {
-    let cards = this[deck];
-    cards.push(cards.unshift());
-    return cards[0];
+    this[deck].push(this[deck].unshift());
+    return this[deck][0];
   }
   // drawCards(cards: ICard[]): ICard {
   //   console.log('Drawing new card')

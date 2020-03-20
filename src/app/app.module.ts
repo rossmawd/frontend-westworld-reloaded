@@ -5,7 +5,8 @@ import { HttpClientModule } from "@angular/common/http";
 import {MatSliderModule}  from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { GameComponent } from './game/game.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 
 @NgModule({
   declarations: [
@@ -32,8 +32,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatSliderModule,
     MatCardModule,
-    MatButtonModule
-   
+    MatButtonModule,
+    MatBadgeModule,
+    MatIconModule
     
   ],
   providers: [],
