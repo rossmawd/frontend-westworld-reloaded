@@ -21,13 +21,13 @@ export class GameComponent implements OnInit {
   infoMessage: string;
   playerCardColor: string;
   oppCardColor: string;
-  playerScore: number = 50
+  playerScore: number = 50;
 
   constructor(
     private route: ActivatedRoute,
     private welcomeService: WelcomeService,
     private cardService: CardService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -35,8 +35,9 @@ export class GameComponent implements OnInit {
       next: cards => {
         this.cards = cards;
         this.distributeCards([...this.cards]);
-        this.currentPlayerCard = this.drawCards("playerCards");
-        this.currentOpponentCard = this.drawCards("opponentCards");
+
+        this.currentPlayerCard = this.playerCards[0];
+        this.currentOpponentCard = this.opponentCards[0];
       },
       error: err => (this.errorMessage = err)
     });
@@ -44,6 +45,15 @@ export class GameComponent implements OnInit {
     this.playerName
       ? null
       : (this.playerName = this.welcomeService.getUserName());
+  }
+
+  distributeCards(cards: ICard[]): void {
+    cards = this.shuffle(cards);
+    cards.pop();
+
+    this.playerCards = cards.slice(0, 8);
+    this.opponentCards = cards.slice(8);
+    console.log("players:", this.playerCards, "Opponents:", this.opponentCards);
   }
 
   handleAttack(attribute: string): void {
@@ -64,53 +74,49 @@ export class GameComponent implements OnInit {
     att: string,
     outcome: string
   ): void {
-    let winLoseDraw: string 
-    if (outcome === 'win') {winLoseDraw = 'You Won a Card!'}
-    if (outcome === 'lose') {winLoseDraw = 'You Lost a Card!'}
-    if (outcome === 'draw') {winLoseDraw = `It\'s a stalemate! Re-Draw!`}
+    let winLoseDraw: string;
+    switch (outcome) {
+      case "win":
+        winLoseDraw = "You Won a Card!";
+        this.oppCardColor = "#ff3333";
+        break;
+      case "lose":
+        winLoseDraw = "You Lost a Card!";
+        this.playerCardColor = "#ff3333";
+        break;
+      case "draw":
+        winLoseDraw = `It\'s a stalemate! Re-Draw!`;
+        break;
+      default:
+        null;
+    }
 
-    // console.log(`${winner} used ${att} to defeat ${loser}`);
-    if (att === 'apperception') {
-      this.infoMessage = winLoseDraw + ` ${winner} outsmarted ${loser}! Unsurprising.`
+    if (att === "apperception") {
+      this.infoMessage =
+        winLoseDraw + ` ${winner} outsmarted ${loser}! Unsurprising.`;
     }
-    if ( att === 'aggression') {
-      this.infoMessage = winLoseDraw + ` ${loser}'s strength was no match for ${winner}!`
+    if (att === "aggression") {
+      this.infoMessage =
+        winLoseDraw + ` ${winner} overpowered ${loser}!`;
     }
-    if ( att === 'charm') {
-      this.infoMessage = winLoseDraw + ` Poor ${loser} fell for ${winner}'s charms!`
-    }  
-    console.log(this.infoMessage)
-    outcome === 'win' ? this.oppCardColor = '#ff3333' : this.playerCardColor = '#ff3333' 
+    if (att === "charm") {
+      this.infoMessage =
+        winLoseDraw + ` Poor ${loser} fell for ${winner}'s charms!`;
+    }
+
+    console.log(this.infoMessage);
     setTimeout(() => {
-      this.exchangeCard(outcome)
-      this.oppCardColor = null 
-      this.playerCardColor = null
-    }, 3000)
-   
-    
-  }
-
-  updateScoreAndDetermineIfLoss(condition: string): boolean{
-    if (condition === 'lose') {this.playerScore --}
-    console.log('the player score is now' + this.playerScore)
-    console.log('the player has' + this.playerCards.length)
-    if (this.playerCards.length - 1 < 3) { 
-      console.log('ROUTING')
-      this.router.navigate(["/welcome"]);
-      return true
-    }
-    if (this.opponentCards.length -1 < 3) {
-      this.router.navigate(["/welcome"])
-      return true
-    }
-   
-
-    return false
+      this.exchangeCard(outcome);
+      this.oppCardColor = null;
+      this.playerCardColor = null;
+    }, 3000);
   }
 
   exchangeCard(condition: string): void {
     console.log(condition);
-    if (this.updateScoreAndDetermineIfLoss(condition)){return}
+    if (this.updateScoreAndDetermineIfLoss(condition)) {
+      return;
+    }
     if (condition === "win") {
       this.playerCards = [...this.playerCards, this.opponentCards.shift()];
       this.playerCards.push(this.playerCards.shift());
@@ -122,30 +128,30 @@ export class GameComponent implements OnInit {
       this.playerCards.push(this.playerCards.shift());
     }
     //set the cards for the next round
+    if (!(typeof this.playerCards[0] === 'number')) { //to deal w/ odd bug
     this.currentPlayerCard = this.playerCards[0];
     this.currentOpponentCard = this.opponentCards[0];
+    }
     console.log("the new player card is", this.currentPlayerCard);
     console.log("the new opponent card is", this.currentOpponentCard);
   }
 
-  drawCards(deck: string): ICard {
-    this[deck].push(this[deck].unshift());
-    return this[deck][0];
-  }
-
-  distributeCards(cards: ICard[]): void {
-    let playerCards: ICard[];
-    let opponentCards: ICard[];
-
-    cards = this.shuffle(cards);
-    cards.pop();
-
-    playerCards = cards.slice(0, 8);
-    opponentCards = cards.slice(8);
-    console.log("players:", playerCards, "Opponents:", opponentCards);
-
-    this.playerCards = playerCards;
-    this.opponentCards = opponentCards;
+  updateScoreAndDetermineIfLoss(condition: string): boolean {
+    if (condition === "lose") {
+      this.playerScore--;
+    }
+    console.log("the player score is now" + this.playerScore);
+    console.log("the player has: " + this.playerCards.length + ' cards left');
+    if (this.playerCards.length - 1 < 3) {
+      console.log("ROUTING");
+      this.router.navigate(["/welcome"]);
+      return true;
+    }
+    if (this.opponentCards.length - 1 < 3) {
+      this.router.navigate(["/welcome"]);
+      return true;
+    }
+    return false;
   }
 
   shuffle(cards: ICard[]): ICard[] {
@@ -156,3 +162,10 @@ export class GameComponent implements OnInit {
     return cards;
   }
 }
+
+// drawCards(deck: string): ICard {
+//   this[deck].push(this[deck].unshift());
+//   return this[deck][0];
+// }
+// this.currentPlayerCard = this.drawCards("playerCards");
+// this.currentOpponentCard = this.drawCards("opponentCards");
