@@ -17,55 +17,58 @@ export class HighscoreComponent implements OnInit {
   scores: any[];
   errorMessage: string;
   playerName: string;
-  newScores$ = this.getHighScores()
-
+  
   constructor(
     private welcomeService: WelcomeService,
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     if (this.welcomeService.getWinState()) {
       this.postHighScore().subscribe({
         next: postedScore => {
-          console.log(postedScore)
-  
+          console.log(postedScore);
         },
         error: err => (this.errorMessage = err)
       });
     }
     //set the new high score here then call get scores and add it manually?
-  this.getHighScores().subscribe({
+    this.getHighScores().subscribe({
       next: scores => {
-       
-        this.scores = this.sortScores(scores)
-      
+        this.scores = this.sortScores(scores);
       },
       error: err => (this.errorMessage = err)
     });
   }
 
   sortScores(scores: any[]): any[] {
-    if (this.playerScore) {scores = [...scores]} //unnessessary? 
-      scores = scores.sort((a,b) => {
-        if(a.score > b.score) {return -1}
-        if(a.score < b.score) {return 1}
-      })
-      console.log('the sorted scores are', scores)
-     return scores
+    if (this.playerScore) {
+      scores = [...scores];
+    } //unnessessary?
+    scores = scores.sort((a, b) => {
+      if (a.score > b.score) {
+        return -1;
+      }
+      if (a.score < b.score) {
+        return 1;
+      }
+    });
+    console.log("the sorted scores are", scores);
+    return scores;
   }
 
   postHighScore(): Observable<{}> {
-   
-    this.playerScore = {"name": this.welcomeService.getUserName(), "score": this.welcomeService.getUserScore()}
+    this.playerScore = {
+      name: this.welcomeService.getUserName(),
+      score: this.welcomeService.getUserScore()
+    };
     return this.http.post<{}>(this.highScoreUrl, this.playerScore).pipe(
       tap(data => console.log("the new score is: ", data)),
       catchError(this.handleError)
-    )
+    );
   }
 
   getHighScores(): Observable<any[]> {
-
     return this.http.get<any[]>(this.highScoreUrl).pipe(
       tap(data => console.log("the high scores are: ", data)),
       catchError(this.handleError) //CATCH <<<-----
