@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 })
 export class WelcomeService {
   private userName: string
+  private userScore: number;
 
   constructor() { }
 
@@ -16,4 +17,14 @@ export class WelcomeService {
   getUserName(): string {
     return this.userName
   }
+
+  setUserScore(score: number): void {
+    this.userScore = score
+  } 
+
+  getAllScores(): any {
+    console.log('I must have an API call here')
+    return this.userScore
+  }
+
 }

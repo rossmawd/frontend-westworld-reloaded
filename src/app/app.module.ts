@@ -15,6 +15,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { GameComponent } from './game/game.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HighscoreComponent } from './highscore/highscore.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CardComponent,
     ToolbarComponent,
     GameComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    HighscoreComponent
   ],
   imports: [
     BrowserModule,

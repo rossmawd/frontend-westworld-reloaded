@@ -109,7 +109,7 @@ export class GameComponent implements OnInit {
       this.exchangeCard(outcome);
       this.oppCardColor = null;
       this.playerCardColor = null;
-    }, 3000);
+    }, 10);
   }
 
   exchangeCard(condition: string): void {
@@ -144,11 +144,13 @@ export class GameComponent implements OnInit {
     console.log("the player has: " + this.playerCards.length + ' cards left');
     if (this.playerCards.length - 1 < 3) {
       console.log("ROUTING");
-      this.router.navigate(["/welcome"]);
+      this.welcomeService.setUserScore(this.playerScore)
+      this.router.navigate(["/highscore"]);
       return true;
     }
     if (this.opponentCards.length - 1 < 3) {
-      this.router.navigate(["/welcome"]);
+      this.welcomeService.setUserScore(this.playerScore)
+      this.router.navigate(["/highscore"]);
       return true;
     }
     return false;
