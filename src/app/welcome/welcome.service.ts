@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 export class WelcomeService {
   private userName: string
   private userScore: number;
+  private winOrLoss: string;
 
   constructor() { }
 
@@ -18,8 +19,14 @@ export class WelcomeService {
     return this.userName
   }
 
-  setUserScore(score: number): void {
+  getWinState(): string {
+    return this.winOrLoss
+  }
+
+  setUserScore(score: number, winOrLoss: string): void {
     this.userScore = score
+    this.winOrLoss = winOrLoss
+    console.log('the win state is ' + winOrLoss)
   } 
 
   getAllScores(): any {

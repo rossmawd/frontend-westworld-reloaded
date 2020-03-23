@@ -8,12 +8,14 @@ import { WelcomeService } from "../welcome/welcome.service";
 })
 export class HighscoreComponent implements OnInit {
   playerScore: number;
+  winOrLoss: string;
 
   constructor(private welcomeService: WelcomeService,) {
 
   }
   ngOnInit(): void {
     this.playerScore = this.welcomeService.getAllScores()
+    this.winOrLoss = this.welcomeService.getWinState()
   }
 
 }

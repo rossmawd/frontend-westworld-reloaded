@@ -96,8 +96,7 @@ export class GameComponent implements OnInit {
         winLoseDraw + ` ${winner} outsmarted ${loser}! Unsurprising.`;
     }
     if (att === "aggression") {
-      this.infoMessage =
-        winLoseDraw + ` ${winner} overpowered ${loser}!`;
+      this.infoMessage = winLoseDraw + ` ${winner} overpowered ${loser}!`;
     }
     if (att === "charm") {
       this.infoMessage =
@@ -128,9 +127,10 @@ export class GameComponent implements OnInit {
       this.playerCards.push(this.playerCards.shift());
     }
     //set the cards for the next round
-    if (!(typeof this.playerCards[0] === 'number')) { //to deal w/ odd bug
-    this.currentPlayerCard = this.playerCards[0];
-    this.currentOpponentCard = this.opponentCards[0];
+    if (!(typeof this.playerCards[0] === "number")) {
+      //to deal w/ odd bug
+      this.currentPlayerCard = this.playerCards[0];
+      this.currentOpponentCard = this.opponentCards[0];
     }
     console.log("the new player card is", this.currentPlayerCard);
     console.log("the new opponent card is", this.currentOpponentCard);
@@ -141,18 +141,15 @@ export class GameComponent implements OnInit {
       this.playerScore--;
     }
     console.log("the player score is now" + this.playerScore);
-    console.log("the player has: " + this.playerCards.length + ' cards left');
-    if (this.playerCards.length - 1 < 3) {
+    console.log("the player has: " + this.playerCards.length + " cards left");
+    if (this.playerCards.length < 3 || this.opponentCards.length < 3) {
       console.log("ROUTING");
-      this.welcomeService.setUserScore(this.playerScore)
+      this.welcomeService.setUserScore(this.playerScore, condition);
+      
       this.router.navigate(["/highscore"]);
       return true;
     }
-    if (this.opponentCards.length - 1 < 3) {
-      this.welcomeService.setUserScore(this.playerScore)
-      this.router.navigate(["/highscore"]);
-      return true;
-    }
+ 
     return false;
   }
 
