@@ -29,7 +29,7 @@ export class WelcomeService {
     console.log('the win state is ' + winOrLoss)
   } 
 
-  getAllScores(): any {
+  getUserScore(): {} {
     console.log('I must have an API call here')
     return this.userScore
   }

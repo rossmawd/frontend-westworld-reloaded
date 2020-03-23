@@ -1,2 +1,37 @@
-<p>You {{winOrLoss}}!</p>
-<p>and the score was </p> <p>{{playerScore.toString()}}</p>
+
+  <p>You {{ winOrLoss }}!</p>
+
+<mat-card>
+
+    <mat-card-title>High Scores!</mat-card-title>
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+<table>
+  <tr>
+    <th>Name </th>
+    <th>Score</th>
+  </tr>
+
+  <tr *ngFor="let score of scores; let i = index" [attr.data-index]>
+    <td>{{i+1}}: {{score.name}}</td>
+    <td> {{score.score}}</td>
+  </tr>
+</table>
+</mat-card>
